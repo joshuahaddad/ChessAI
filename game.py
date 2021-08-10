@@ -451,8 +451,8 @@ class App:
         castle = []
         if piece != "King": return []
 
-        king_rook = "Rook" in self.decode_piece(self.board[sc + 2])[1]
-        queen_rook = "Rook" in self.decode_piece(self.board[sc - 3])[1]
+        king_rook = "Rook" in self.decode_piece(self.board[sc + 3])[1]
+        queen_rook = "Rook" in self.decode_piece(self.board[sc - 4])[1]
 
         if color == "b":
             if dest == sc + 2 and self.bOO and king_rook:
@@ -552,10 +552,14 @@ class App:
         if piece == "King":
             #Check for castling rights and check if player is trying to castle
             valid_castle = self.valid_castle(sc, dest)
-            if dest == sc + 2 and "OO" in valid_castle:
+            if dest == sc + 2  and "OO" in valid_castle:
+                save_turn = self.turn
                 self.move_piece(sc+3, sc+1)
+                self.turn = save_turn
             elif dest == sc -2 and "OOO" in valid_castle:
-                self.move_piece(sc-4, sc-1)
+                save_turn = self.turn
+                self.move_piece(sc - 4, sc - 1)
+                self.turn = save_turn
 
             #King is moving so remove castling rights
             if color == "w":
